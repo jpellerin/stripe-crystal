@@ -9,6 +9,17 @@ describe Stripe::Customer do
       c.responds_to?(:created).should be_true
       c.responds_to?(:livemode).should be_true
     end
+
+    it "emit json including the values of set properties" do
+      c = Stripe::Customer.new
+      c.id = "hi"
+      h = JSON.parse(c.to_json)
+      h.should_not be_nil
+      if h
+        h_h = h as Hash(String,JSON::Type)
+        h_h["id"].should eq("hi")
+      end
+    end
   end
 
   describe "the all() method" do

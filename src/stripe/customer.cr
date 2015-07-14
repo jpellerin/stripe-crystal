@@ -9,6 +9,11 @@ module Stripe
     required id, String
     required livemode, Bool
 
+    resource!
+
+    def initialize
+    end
+
     def self.all(limit=0)
 
     end
