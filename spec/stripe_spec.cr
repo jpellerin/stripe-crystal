@@ -1,9 +1,9 @@
 require "./spec_helper"
 
 describe Stripe do
-  # TODO: Write tests
 
-  it "works" do
-    false.should eq(true)
+  it "compiles" do
+    true.should eq(true)
   end
+
 end
