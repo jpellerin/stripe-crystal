@@ -51,4 +51,10 @@ describe Stripe::Customer do
       end
     end
   end
+
+  describe "the create() method" do
+    it "exists" do
+      Stripe::Customer.responds_to?(:create).should be_true
+    end
+  end
 end
