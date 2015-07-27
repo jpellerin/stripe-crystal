@@ -39,6 +39,26 @@ describe Stripe::Charge do
       c.id.should eq("ch_16R30N2eZvKYlo2Cc9UqyVES")
     end
 
+    describe "customer" do
+
+      it "is a reference that can be resolved" do
+
+        data = File.read("spec/sample_data/charge.json")
+        customer = File.read("spec/sample_data/customer2.json")
+        WebMock.wrap do
+          WebMock.stub(:get, "api.stripe.com/v1/customers/cus_6eLh4evge7sWzQ")
+            .to_return(body: customer)
+          c = Stripe::Charge.from_json(data)
+          cus = c.customer.try &.resolve
+          cus.try { |o|
+            o.id.should eq("cus_6eLh4evge7sWzQ")
+            o.object.should eq("customer")
+          }
+
+        end
+      end
+    end
   end
+
 
 end

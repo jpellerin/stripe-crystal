@@ -29,6 +29,11 @@ describe Stripe::Customer do
       c.livemode.should eq(false)
     end
 
+    it "can be instantiated from a string" do
+      c = Stripe::Customer.new("cust_1")
+      c.id.should eq("cust_1")
+    end
+
     it "can be instantiated from sample data" do
       data = File.read("spec/sample_data/customer.json")
       c = Stripe::Customer.from_json(data)

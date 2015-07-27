@@ -1,6 +1,4 @@
 require "./resource"
-require "./source"
-require "./refund"
 
 module Stripe
   class Charge < Resource
@@ -27,7 +25,7 @@ module Stripe
     optional failure_message, String
     optional failure_code, String
     optional amount_refunded, Int64
-    optional customer, String # FIXME REF
+    optional customer, Ref(Customer)
     optional invoice, String
     optional description, String
     optional dispute, String
