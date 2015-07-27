@@ -1,0 +1,54 @@
+{
+  "object": "customer",
+  "created": 1436898576,
+  "id": "cus_6blhDTjCsoUECV",
+  "livemode": false,
+  "description": null,
+  "email": "virtumedix+ivanp0001@gmail.com",
+  "delinquent": false,
+  "metadata": {
+  },
+  "subscriptions": {
+    "object": "list",
+    "total_count": 0,
+    "has_more": false,
+    "url": "/v1/customers/cus_6blhDTjCsoUECV/subscriptions",
+    "data": []
+  },
+  "discount": null,
+  "account_balance": 0,
+  "currency": "usd",
+  "sources": {
+    "object": "list",
+    "total_count": 1,
+    "has_more": false,
+    "url": "/v1/customers/cus_6blhDTjCsoUECV/sources",
+    "data": [
+      {
+        "id": "card_16OY9r2eZvKYlo2CaB0USy4f",
+        "object": "card",
+        "last4": "4242",
+        "brand": "Visa",
+        "funding": "credit",
+        "exp_month": 2,
+        "exp_year": 2016,
+        "country": "US",
+        "name": null,
+        "address_line1": null,
+        "address_line2": null,
+        "address_city": null,
+        "address_state": null,
+        "address_zip": null,
+        "address_country": null,
+        "cvc_check": "pass",
+        "address_line1_check": null,
+        "address_zip_check": null,
+        "tokenization_method": null,
+        "dynamic_last4": null,
+        "metadata": {
+        },
+        "customer": "cus_6blhDTjCsoUECV"
+      }
+    ]
+  }
+}

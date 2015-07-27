@@ -6,7 +6,7 @@ module Stripe
 
     required id, String
     required object, String
-    required created, Int64
+    required created, Int64 # FIXME date wrapper type?
     required livemode, Bool
 
     present description, String

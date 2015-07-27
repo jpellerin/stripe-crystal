@@ -31,4 +31,5 @@ module Stripe::DSL
     private def json__prop_{{name.id}}(t={{type}}, n={{nillable}}, e={{emit_null}})
     end
   end
+
 end

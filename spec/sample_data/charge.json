@@ -1,0 +1,64 @@
+{
+  "id": "ch_16R30N2eZvKYlo2Cc9UqyVES",
+  "object": "charge",
+  "created": 1437493807,
+  "livemode": false,
+  "paid": true,
+  "status": "succeeded",
+  "amount": 1000,
+  "currency": "usd",
+  "refunded": false,
+  "source": {
+    "id": "card_16R30H2eZvKYlo2C6vq02oqW",
+    "object": "card",
+    "last4": "1881",
+    "brand": "Visa",
+    "funding": "credit",
+    "exp_month": 11,
+    "exp_year": 2018,
+    "country": "US",
+    "name": "Harold Hamburger",
+    "address_line1": "123 Fake St",
+    "address_line2": "Apt 4",
+    "address_city": "Detroit",
+    "address_state": "MI",
+    "address_zip": "48201",
+    "address_country": "US",
+    "cvc_check": "pass",
+    "address_line1_check": "pass",
+    "address_zip_check": "pass",
+    "tokenization_method": null,
+    "dynamic_last4": null,
+    "metadata": {
+    },
+    "customer": "cus_6eLh4evge7sWzQ"
+  },
+  "captured": true,
+  "balance_transaction": "txn_16Oge72eZvKYlo2CNd0Y968D",
+  "failure_message": null,
+  "failure_code": null,
+  "amount_refunded": 0,
+  "customer": "cus_6eLh4evge7sWzQ",
+  "invoice": null,
+  "description": null,
+  "dispute": null,
+  "metadata": {
+  },
+  "statement_descriptor": null,
+  "fraud_details": {
+  },
+  "receipt_email": null,
+  "receipt_number": null,
+  "shipping": null,
+  "destination": null,
+  "application_fee": null,
+  "refunds": {
+    "object": "list",
+    "total_count": 0,
+    "has_more": false,
+    "url": "/v1/charges/ch_16R30N2eZvKYlo2Cc9UqyVES/refunds",
+    "data": [
+
+    ]
+  }
+}
