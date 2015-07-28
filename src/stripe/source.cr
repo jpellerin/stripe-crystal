@@ -2,9 +2,13 @@ require "./resource"
 
 module Stripe
   class Source < Resource
+
     required id, String
     required object, String
-    required customer, String  # FIXME REF to customer
+    present amount, Int64
+
+    # card fields
+    optional customer, String  # FIXME REF to customer
     optional last4, String
     optional brand, String
     optional funding, String
@@ -25,6 +29,11 @@ module Stripe
     optional dynamic_last4, String
     optional metadata, JSON::Any
 
+    # bitcoin receiver fields
+    optional active, Bool
+    optional livemode, Bool
+
     jsonify!
   end
+
 end

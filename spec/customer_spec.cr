@@ -1,5 +1,6 @@
 require "./spec_helper"
 
+
 describe Stripe::Customer do
 
   describe "properties" do

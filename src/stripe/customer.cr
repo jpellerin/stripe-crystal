@@ -4,6 +4,7 @@ require "./subscription"
 
 module Stripe
   class Customer < Resource
+    @@collection = "customers"
 
     required id, String
     required object, String
@@ -29,24 +30,6 @@ module Stripe
     def initialize(@id : String)
     end
 
-    def self.get(id : String)
-      url = "https://api.stripe.com/v1/customers/#{id}"
-      resp = HTTP::Client.get(url)
-      self.from_json(resp.body)
-    end
 
-    def self.all(limit=0)
-      # FIXME
-      # HEADERS
-      # Error handling and junk
-      url = "https://api.stripe.com/v1/customers?limit=#{limit}"
-      resp = HTTP::Client.get(url)
-      List(Customer).from_json(resp.body)
-    end
-
-    #def self.get(url)
-      # ? Stripe::get(List(Customer), url)
-
-    #end
   end
 end

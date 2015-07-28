@@ -4,8 +4,17 @@ module Stripe
   class Ref(T) < Resource
 
     def initialize(pull : JSON::PullParser)
-      @id = pull.read_string
-      @ref = nil
+      case pull.kind
+      when :string
+        @id = pull.read_string
+        @ref = nil
+      when :begin_object
+        obj = T.new pull
+        @id = obj.id
+        @ref = obj
+      else
+        raise ArgumentError.new "Expected string or begin_object but got #{pull.kind}"
+      end
     end
 
     def resolve
@@ -13,7 +22,7 @@ module Stripe
       if r
         r
       else
-        get(T, @id)
+        @ref = get(T, @id)
       end
     end
 
@@ -33,8 +42,15 @@ module Stripe
       end
     end
 
-    def get(type, id : String)
-      type.get(id)
+    def get(type, id : String?)
+      id.try { |val| type.get(val) }
+    end
+
+    # Delegate to @refvia try{}
+    macro method_missing(name, args, block)
+      @ref.try { |o|
+        o.{{name.id}}({{*args}}) {{ block }}
+      }
     end
   end
 end

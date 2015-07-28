@@ -1,0 +1,13 @@
+{
+  "id": "re_16TTpq2eZvKYlo2CYLDWLqa4",
+  "amount": 100,
+  "currency": "usd",
+  "created": 1438073598,
+  "object": "refund",
+  "balance_transaction": null,
+  "metadata": {
+  },
+  "charge": "ch_16QwUw2eZvKYlo2CfNczqbSf",
+  "receipt_number": null,
+  "reason": null
+}

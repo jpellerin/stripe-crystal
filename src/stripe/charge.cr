@@ -2,43 +2,44 @@ require "./resource"
 
 module Stripe
   class Charge < Resource
+    @@collection = "charges"
+
     required id, String
     required object, String
     required created, Int64  # FIXME date wrapper type?
     required livemode, Bool
     required amount, Int64
     required currency, String  # FIXME currency obj?
-    optional customer, String # FIXME Id type?
-    optional source, Source # FIXME SourceOrID type that auto-resolves ids on access? ID class?
-    optional description, String
-    optional capture, Bool
-    optional statement_desciptor, String
-    optional receipt_email, String
-    optional destination, String
-    optional application_fee, Int64
-    optional shipping, JSON::Any # Hash?
-    optional paid, Bool
-    optional status, String
-    optional refunded, Bool
-    optional captured, Bool
-    optional balance_transaction, String # FIXME REF
-    optional failure_message, String
-    optional failure_code, String
-    optional amount_refunded, Int64
-    optional customer, Ref(Customer)
-    optional invoice, String
-    optional description, String
-    optional dispute, String
-    optional metadata, JSON::Any
-    optional statement_descriptor, String
-    optional fraud_details, JSON::Any
-    optional receipt_email, String
-    optional receipt_number, String
-    optional shipping, JSON::Any # ?
-    optional destination, JSON::Any # ?
-    optional application_fee, JSON::Any #?
-    optional transfer, JSON::Any #?
-    optional refunds, List(Refund)
+    present source, Source
+    present customer, Ref(Customer)
+    present description, String
+    present capture, Bool
+    present statement_desciptor, String
+    present receipt_email, String
+    present destination, String # FIXME REF
+    present application_fee, Int64
+    present shipping, JSON::Any # Hash?
+    present paid, Bool
+    present status, String
+    present refunded, Bool
+    present captured, Bool
+    present balance_transaction, String # FIXME REF
+    present failure_message, String
+    present failure_code, String
+    present amount_refunded, Int64
+    present invoice, String # FIXME REF
+    present description, String
+    present dispute, String
+    present metadata, JSON::Any
+    present statement_descriptor, String
+    present fraud_details, JSON::Any
+    present receipt_email, String
+    present receipt_number, String
+    present shipping, JSON::Any # ?
+    present destination, JSON::Any # ?
+    present application_fee, JSON::Any #?
+    present transfer, String # FIXME REF
+    present refunds, List(Refund)
 
     jsonify!
 
