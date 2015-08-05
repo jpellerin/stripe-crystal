@@ -24,10 +24,10 @@ module Stripe
 
   end
 
-  class List(T)
-    json_mapping({object: String,
-                  url: String,
-                  has_more: Bool,
-                  data: Array(T)})
-  end
+   class List(T)
+     json_mapping({object: String,
+                   url: String,
+                   has_more: Bool,
+                   data: Array(T)})
+   end
 end

@@ -10,7 +10,7 @@ module Stripe
     required livemode, Bool
     required amount, Int64
     required currency, String  # FIXME currency obj?
-    present source, Source
+    present source, {"card": Card, "bitcoin_receiver": BitcoinReceiver}
     present customer, Ref(Customer)
     present description, String
     present capture, Bool
@@ -30,7 +30,6 @@ module Stripe
     present invoice, String # FIXME REF
     present description, String
     present dispute, String
-    present metadata, JSON::Any
     present statement_descriptor, String
     present fraud_details, JSON::Any
     present receipt_email, String
@@ -40,10 +39,8 @@ module Stripe
     present application_fee, JSON::Any #?
     present transfer, String # FIXME REF
     present refunds, List(Refund)
+    optional metadata, Hash(String,String)
 
     jsonify!
-
-    def initialize
-    end
   end
 end

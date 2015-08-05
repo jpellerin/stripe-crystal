@@ -10,8 +10,13 @@ module Stripe
         @ref = nil
       when :begin_object
         obj = T.new pull
-        @id = obj.id
-        @ref = obj
+        id = obj.id
+        if id
+          @id = id
+          @ref = obj
+        else
+          raise ArgumentError.new "No id field in #{obj}"
+        end
       else
         raise ArgumentError.new "Expected string or begin_object but got #{pull.kind}"
       end
