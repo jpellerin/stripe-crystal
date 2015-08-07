@@ -6,7 +6,7 @@ module Stripe
     def initialize(pull : JSON::PullParser)
       case pull.kind
       when :string
-        @id = pull.read_string
+        @id = String.new pull
         @ref = nil
       when :begin_object
         obj = T.new pull

@@ -13,9 +13,9 @@ module Stripe
     required exp_year, Int64
     required country, String
     required name, String
-    # FIXME
+    
     optional customer, Ref(Customer)
-    # optional recipient, Ref(Recipient)
+    optional recipient, Ref(Recipient)
     optional address_line1, String
     optional address_line2, String
     optional address_city, String

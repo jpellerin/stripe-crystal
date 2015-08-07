@@ -18,7 +18,5 @@ module Stripe
 
     jsonify!
 
-    def initialize
-    end
   end
 end
