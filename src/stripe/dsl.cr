@@ -1,4 +1,5 @@
 require "json"
+require "./conversion"
 
 module Stripe::DSL
 
@@ -48,12 +49,58 @@ module Stripe::DSL
 
     # init from json
     def initialize(_pull : JSON::PullParser)
-      obj = JSON::Any.new(_pull) as Hash(String,JSON::Type)
-      initialize(obj)
+
+      {% for key, _def in defs %}
+        _{{key.id}} = nil
+      {% end %}
+
+      _pull.read_object do |_key|
+        case _key
+        {% for key, _def in defs %}
+        when {{key.id.stringify}}
+          _{{key.id}} =
+            {% if _def[:nilable] == true %} _pull.read_null_or { {% end %}
+            {% if _def[:type].is_a?(HashLiteral) %}
+              obj = JSON::Any.new(_pull) as Hash(String,JSON::Type)
+              case obj["object"]?
+              {% for object, klass in _def[:type] %}
+                when {{object.id.stringify}}
+                {{klass.id}}.new(obj)
+              {% end %}
+              else
+                raise ArgumentError.new "Invalid object type #{obj["object"]}"
+              end
+            {% else %}
+              {{_def[:type]}}.new(_pull)
+            {% end %}
+            {% if _def[:nilable] == true %} } {% end %}
+        {% end %}
+        else
+          _pull.skip
+        end
+      end
+
+      {% for key, _def in defs %}
+        {% unless _def[:nilable] %}
+          if _{{key.id}}.is_a?(Nil)
+            raise JSON::ParseException.new("missing json attribute: {{key.id}}", 0, 0)
+          end
+        {% end %}
+      {% end %}
+
+      {% for key, _def in defs %}
+        @{{key.id}} = _{{key.id}}
+      {% end %}
     end
 
     # init from hash
     def initialize(_obj : Hash(String, JSON::Type))
+      puts "new ", self.class
+      {% for key, _def in defs %}
+        _{{key.id}} = nil
+        puts "_{{key.id}} = nil"
+      {% end %}
+
       {% for key, _def in defs %}
         {% value = _def[:type] %}
         {% if value.is_a?(HashLiteral) %}
@@ -67,19 +114,35 @@ module Stripe::DSL
           {% rtype = vtype %}
         {% end %}
         {% if value.is_a?(HashLiteral) %}
-          o_val = _obj["{{key.id}}"] as Hash(String, JSON::Type)
-          @{{key.id}} = case o_val
+          %o_val = _obj["{{key.id}}"] as Hash(String, JSON::Type)
+          _{{key.id}} = case %o_val
                         {% for object, klass in value %}
                         when {{object.id.stringify}}
-                          {{klass}}.new(o_val)
+                          {{klass}}.new(%o_val)
                         {% end %}
                         else
                           nil
                         end
         {% else %}
-          @{{key.id}} = _obj["{{key.id}}"]{% if _def[:nilable] == true %}?{% end %} as {{rtype}}
+          if _obj.has_key?({{key.id.stringify}})
+            puts "cast #{_obj[{{key.id.stringify}}]} as {{value.id}}"
+            _{{key.id}} = {{value.id}}.from(_obj["{{key.id}}"])
+          end
         {% end %}
       {% end %}
+
+      {% for key, _def in defs %}
+        {% unless _def[:nilable] %}
+          if _{{key.id}}.is_a?(Nil)
+            raise JSON::ParseException.new("missing json attribute: {{key.id}}", 0, 0)
+          end
+        {% end %}
+      {% end %}
+
+      {% for key, _def in defs %}
+        @{{key.id}} = _{{key.id}}
+      {% end %}
+      {{debug()}}
     end
 
     # to_json
@@ -100,6 +163,14 @@ module Stripe::DSL
           {% end %}
         {% end %}
       end
+    end
+
+    def self.from(_pull : JSON::PullParser)
+      new _pull
+    end
+    
+    def self.from(_obj : Hash(String,JSON::Type))
+      new _obj
     end
 
     # finally, clean up the cruft

@@ -9,6 +9,12 @@ describe Stripe::Charge do
     c.id.should eq("ch_16R30N2eZvKYlo2Cc9UqyVES")
   end
 
+  it "should have non-nillable required fields" do
+    data = File.read("spec/sample_data/charge.json")
+    c = Stripe::Charge.from_json(data)
+    c.id.gsub("VEW","yes").should eq("ch_16R30N2eZvKYlo2Cc9UqyVES")
+  end
+
   describe "customer" do
 
     it "is a reference that can be resolved" do

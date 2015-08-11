@@ -2,7 +2,7 @@ require "./dsl"
 require "./source"
 
 module Stripe
-  class Card < Source
+  class Card < AbstractSource
 
     required id, String
     required object, String
@@ -14,19 +14,19 @@ module Stripe
     required country, String
     required name, String
     
-    optional customer, Ref(Customer)
-    optional recipient, Ref(Recipient)
-    optional address_line1, String
-    optional address_line2, String
-    optional address_city, String
-    optional address_state, String
-    optional address_country, String
-    optional cvc_check, String
-    optional address_line1_check, String
-    optional address_zip_check, String
-    optional tokenization_method, String
-    optional dynamic_last4, String
-    optional metadata, Hash(String,String)
+    present customer, Ref(Customer)
+    present recipient, Ref(Recipient)
+    present address_line1, String
+    present address_line2, String
+    present address_city, String
+    present address_state, String
+    present address_country, String
+    present cvc_check, String
+    present address_line1_check, String
+    present address_zip_check, String
+    present tokenization_method, String
+    present dynamic_last4, String
+    #present metadata, Hash(String,JSON::Any)
 
     jsonify!
   end

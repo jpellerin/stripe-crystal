@@ -13,13 +13,13 @@ module Stripe
     present description, String
     present email, String
     present delinquent, Bool
-    present metadata, JSON::Any # FIXME hash string -> any
+    #present metadata, Hash(String,JSON::Any)
     present subscriptions, List(Subscription)
     present account_balance, Int64
     present currency, String
-    present discount, JSON::Any # FIXME discount obj
-    present sources, JSON::Any # list of card or bitcoin receiver
-    present default_source, String
+    present discount, Ref(Discount)
+    present sources, List(Source) # FIXME need a special type?
+    present default_source, Ref(Source) # FIXME need a special type?
 
     jsonify!
 

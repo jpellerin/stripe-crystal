@@ -9,7 +9,7 @@ module Stripe
     present name, String
     present email, String
     optional description, String
-    optional metadata, Hash(String,String)
+    #optional metadata, Hash(String,JSON::Any)
     optional :type, String
     optional active_account, BankAccount
     optional cards, List(Card)

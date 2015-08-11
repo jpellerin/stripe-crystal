@@ -16,7 +16,7 @@ module Stripe
     required percent_off, Int64
     required redeem_by, Int64
     
-    optional metadata, Hash(String,String) # fixme too restrictive
+    #optional metadata, Hash(String,JSON::Any)
 
     
   

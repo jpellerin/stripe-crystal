@@ -20,7 +20,7 @@ module Stripe
     optional tax_percent, Float64  # fixme decimal
     optional application_fee_percent, Float64 # fixme decimal
     optional canceled_at, Int64
-    optional metadata, Hash(String,String)
+    # optional metadata, Hash(String,JSON::Any) # fixme need metadata type
 
     jsonify!
 

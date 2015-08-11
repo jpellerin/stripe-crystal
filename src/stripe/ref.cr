@@ -3,6 +3,33 @@ require "./resource"
 module Stripe
   class Ref(T) < Resource
 
+    def self.from(s : String)
+      self.new s
+    end
+
+    def self.from(obj : Hash(String, JSON::Type))
+      self.new T.from obj
+    end
+
+    def self.from(n : Nil)
+      n
+    end
+
+    def self.from(x)
+      pp x
+      raise ArgumentError.new "Invalid type for #{self}: #{x}"
+    end
+
+    def initialize(@id : String)
+    end
+
+    def initialize(@ref : T?)
+      r = @ref
+      if r
+        @id = r.id
+      end
+    end
+
     def initialize(pull : JSON::PullParser)
       case pull.kind
       when :string

@@ -1,7 +1,7 @@
 require "./source"
 
 module Stripe
-  class BitcoinReceiver < Source
+  class BitcoinReceiver < AbstractSource
 
     required id, String
     required object, String
@@ -23,7 +23,7 @@ module Stripe
     optional customer, Ref(Customer)
     optional description, String
     optional refund_address, String
-    optional metadata, Hash(String,String)
+    #optional metadata, Hash(String,JSON::Any)
     
     # optional transactions, List # FIXME of what?
 
