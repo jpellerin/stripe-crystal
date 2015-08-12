@@ -8,8 +8,9 @@ module Stripe
     required created, Int64
     present name, String
     present email, String
+    present metadata, Metadata
+
     optional description, String
-    #optional metadata, Hash(String,JSON::Any)
     optional :type, String
     optional active_account, BankAccount
     optional cards, List(Card)

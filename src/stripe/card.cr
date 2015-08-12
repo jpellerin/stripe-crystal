@@ -26,7 +26,7 @@ module Stripe
     present address_zip_check, String
     present tokenization_method, String
     present dynamic_last4, String
-    #present metadata, Hash(String,JSON::Any)
+    present metadata, Metadata
 
     jsonify!
   end

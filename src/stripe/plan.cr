@@ -13,8 +13,7 @@ module Stripe
     required name, String
     present statement_descriptor, String
     present trial_period_days, Int64
-    
-    #optional metadata, Hash(String,JSON::Any)
+    present metadata, Metadata
 
     jsonify!
 

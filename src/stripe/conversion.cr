@@ -75,3 +75,9 @@ end
 def Array(T).from(x)
   raise ArgumentError.new "No conversion available from #{x}"
 end
+
+def JSON::Any.from(v : JSON::Type)
+  v
+end
+
+

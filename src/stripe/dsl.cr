@@ -3,13 +3,6 @@ require "./conversion"
 
 module Stripe::DSL
 
-  # XXX todo(jhp) support hash(string,any) correctly
-  # make sure semantics of optional and present make sense
-  class Prop
-    def initialize(@type, @required, @nilable)
-    end
-  end
-
   macro jsonify!
     {% properties = {} of String => Hash(Symbol,_) %}
     {% for meth in @type.methods %}
@@ -168,7 +161,7 @@ module Stripe::DSL
     def self.from(_pull : JSON::PullParser)
       new _pull
     end
-    
+
     def self.from(_obj : Hash(String,JSON::Type))
       new _obj
     end
@@ -195,5 +188,6 @@ module Stripe::DSL
     private def json__prop_{{name.id}}(t={{type}}, n={{nillable}}, e={{emit_null}})
     end
   end
-
 end
+
+

@@ -19,11 +19,13 @@ module Stripe
     required uncaptured_funds, Bool
     
     required email, String
+    present metadata, Metadata
+    
     optional payment, String # fixme?
     optional customer, Ref(Customer)
     optional description, String
     optional refund_address, String
-    #optional metadata, Hash(String,JSON::Any)
+
     
     # optional transactions, List # FIXME of what?
 

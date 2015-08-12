@@ -13,7 +13,7 @@ module Stripe
     present description, String
     present email, String
     present delinquent, Bool
-    #present metadata, Hash(String,JSON::Any)
+    present metadata, Metadata
     present subscriptions, List(Subscription)
     present account_balance, Int64
     present currency, String
