@@ -8,7 +8,7 @@ describe Stripe::Customer do
     c = Stripe::Customer.from_json(data)
     c.id.should eq("cus_6blhDTjCsoUECV")
   end
-  
+
 
   describe "the all() method" do
     it "exists" do
@@ -21,7 +21,7 @@ describe Stripe::Customer do
           .to_return(body: File.read("spec/sample_data/customers_all.json"))
         customers = Stripe::Customer.all(limit=3)
         customers.should_not be_nil
-        customers.data.length.should eq(2)
+        customers.data.size.should eq(2)
       end
     end
   end

@@ -13,29 +13,24 @@ module Stripe::DSL
                                         emit_null: meth.args[2].default_value.id} %}
       {% end %}
     {% end %}
-    fields({{properties}})
+      fields({{properties}})
   end
 
   macro fields(defs)
     # Getters and setters
     {% for key, _def in defs %}
       {% value = _def[:type] %}
-      {% if value.is_a?(HashLiteral) %}
-        {% vtype = value.values.join("|").id %}
-        {% rtype = vtype + "|Nil" %}
-      {% elsif _def[:nilable] %}
+      {% if _def[:nilable] %}
         {% vtype = value.id + "?" %}
-        {% rtype = vtype %}
       {% else %}
         {% vtype = value.id %}
-        {% rtype = vtype %}
       {% end %}
 
       def {{key.id}}=(_{{key.id}} : {{vtype}})
         @{{key.id}} = _{{key.id}}
       end
 
-      def {{key.id}} : {{rtype}}
+      def {{key.id}} : {{vtype}}
         @{{key.id}}
       end
     {% end %}
@@ -53,19 +48,7 @@ module Stripe::DSL
         when {{key.id.stringify}}
           _{{key.id}} =
             {% if _def[:nilable] == true %} _pull.read_null_or { {% end %}
-            {% if _def[:type].is_a?(HashLiteral) %}
-              obj = JSON::Any.new(_pull) as Hash(String,JSON::Type)
-              case obj["object"]?
-              {% for object, klass in _def[:type] %}
-                when {{object.id.stringify}}
-                {{klass.id}}.new(obj)
-              {% end %}
-              else
-                raise ArgumentError.new "Invalid object type #{obj["object"]}"
-              end
-            {% else %}
-              {{_def[:type]}}.new(_pull)
-            {% end %}
+            {{_def[:type]}}.new(_pull)
             {% if _def[:nilable] == true %} } {% end %}
         {% end %}
         else
@@ -88,40 +71,16 @@ module Stripe::DSL
 
     # init from hash
     def initialize(_obj : Hash(String, JSON::Type))
-      puts "new ", self.class
       {% for key, _def in defs %}
         _{{key.id}} = nil
-        puts "_{{key.id}} = nil"
       {% end %}
 
       {% for key, _def in defs %}
         {% value = _def[:type] %}
-        {% if value.is_a?(HashLiteral) %}
-          {% vtype = value.values.join("|").id %}
-          {% rtype = vtype + "|Nil" %}
-        {% elsif _def[:nilable] %}
-          {% vtype = value.id + "?" %}
-          {% rtype = vtype %}
-        {% else %}
-          {% vtype = value.id %}
-          {% rtype = vtype %}
-        {% end %}
-        {% if value.is_a?(HashLiteral) %}
-          %o_val = _obj["{{key.id}}"] as Hash(String, JSON::Type)
-          _{{key.id}} = case %o_val
-                        {% for object, klass in value %}
-                        when {{object.id.stringify}}
-                          {{klass}}.new(%o_val)
-                        {% end %}
-                        else
-                          nil
-                        end
-        {% else %}
-          if _obj.has_key?({{key.id.stringify}})
-            puts "cast #{_obj[{{key.id.stringify}}]} as {{value.id}}"
-            _{{key.id}} = {{value.id}}.from(_obj["{{key.id}}"])
-          end
-        {% end %}
+        if _obj.has_key?({{key.id.stringify}})
+
+          _{{key.id}} = {{value.id}}.from(_obj["{{key.id}}"])
+        end
       {% end %}
 
       {% for key, _def in defs %}
@@ -165,11 +124,6 @@ module Stripe::DSL
     def self.from(_obj : Hash(String,JSON::Type))
       new _obj
     end
-
-    # finally, clean up the cruft
-    {% for key, _def in defs %}
-    undef json__prop_{{key.id}}
-    {% end %}
   end
 
   macro required(name, type)
@@ -189,5 +143,3 @@ module Stripe::DSL
     end
   end
 end
-
-

@@ -15,12 +15,12 @@ module Stripe
     required max_redemptions, Int64
     required percent_off, Int64
     required redeem_by, Int64
-    
+
     present metadata, Metadata
 
-    
-  
+
+
     jsonify!
   end
-  
+
 end

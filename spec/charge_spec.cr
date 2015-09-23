@@ -52,7 +52,7 @@ describe Stripe::Charge do
           .to_return(body: File.read("spec/sample_data/charges_all.json"))
         charges = Stripe::Charge.all(limit=3)
         charges.should_not be_nil
-        charges.data.length.should eq(2)
+        charges.data.size.should eq(2)
       end
     end
   end

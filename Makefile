@@ -1,5 +1,5 @@
 test:
-	/usr/local/bin/crystal spec
-	
+	crystal spec
+
 build:
 	crystal build src/stripe.cr
