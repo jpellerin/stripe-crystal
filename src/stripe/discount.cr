@@ -2,16 +2,18 @@ require "./resource"
 
 module Stripe
   class Discount < Resource
-    required id, String
-    required object, String
-
-    required customer, Ref(Customer)
-    required coupon, Coupon
-    required start, Int64
-    required :end, Int64
-    optional subscription, Ref(Subscription)
-  
-    jsonify!
+    properties(
+      required: {
+        id: String,
+        object: String,
+        customer: Ref(Customer),
+        coupon: Coupon,
+        start: Int64,
+        :end => Int64,
+        subscription: Ref(Subscription)
+      }
+    )
+    
   end
   
 end

@@ -1,5 +1,5 @@
 require "./dsl"
-
+require "json"
 
 # todo support subresources properly
 
@@ -20,6 +20,14 @@ module Stripe
       url = "https://api.stripe.com/v1/#{@@collection}?limit=#{limit}"
       resp = HTTP::Client.get(url)
       List(self).from_json(resp.body)
+    end
+
+    def self.from(_pull : JSON::PullParser)
+      new _pull
+    end
+
+    def self.from(_obj : Hash(String,JSON::Type))
+      new _obj
     end
 
     def self.from(x)

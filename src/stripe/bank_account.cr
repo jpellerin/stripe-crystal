@@ -2,12 +2,10 @@ require "./resource"
 
 module Stripe
   class BankAccount < Resource
-    required id, String
-    required object, String
-
-
-  
-    jsonify!
+    properties(required: {
+      id: String,
+      object: String
+    })
   end
-  
+
 end

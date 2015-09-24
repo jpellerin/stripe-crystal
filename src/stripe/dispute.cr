@@ -2,12 +2,13 @@ require "./resource"
 
 module Stripe
   class Dispute < Resource
-    required id, String
-    required object, String
-
-
-  
-    jsonify!
+    properties(
+      required: {
+        id: String,
+        object: String
+      }
+    )
+    
   end
   
 end

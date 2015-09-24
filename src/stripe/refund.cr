@@ -4,19 +4,23 @@ module Stripe
   class Refund < Resource
     @@collection = "refunds"
 
-    required id, String
-    required object, String
-    required amount, Int64
-    required created, Int64
-    required currency, String
-    present metadata, Metadata
-    present balance_transaction, String # FIXME REF
-    present charge, String # not a ref?
-    present description, String
-    present reason, String
-    present receipt_number, String
-
-    jsonify!
+    properties(
+      required: {
+        id: String,
+        object: String,
+        amount: Int64,
+        created: Int64,
+        currency: String
+      },
+      present: {
+        metadata: Metadata,
+        balance_transaction: String, # FIXME REF
+        charge: String, # XXX is this a ref?
+        description: String,
+        reason: String,
+        receipt_number: String
+      }
+    )
 
   end
 end

@@ -2,16 +2,16 @@ require "./resource"
 
 module Stripe
   class Invoice < Resource
-    required id, String
-    required object, String
-    required livemode, Bool
-    required amount_due, Int64
-    required attempt_count, Int64
-    required attempted, Bool
-    
-
-  
-    jsonify!
+    properties(
+      required: {
+        id: String,
+        object: String,
+        livemode: Bool,
+        amount_due: Int64,
+        attempt_count: Int64,
+        attempted: Bool
+      }
+    )
   end
   
 end

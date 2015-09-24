@@ -2,21 +2,26 @@ require "./resource"
 
 module Stripe
   class Recipient < Resource
-    required id, String
-    required object, String
-    required livemode, Bool
-    required created, Int64
-    present name, String
-    present email, String
-    present metadata, Metadata
-
-    optional description, String
-    optional :type, String
-    optional active_account, BankAccount
-    optional cards, List(Card)
-    optional default_card, Ref(Card)
-    optional migrated_to, String
-
-    jsonify!
+    properties(
+      required: {
+        id: String,
+        object: String,
+        livemode: Bool,
+        created: Int64
+      },
+      present: {
+        name: String,
+        email: String,
+        metadata: Metadata
+      },
+      optional: {
+        description: String,
+        type: String,
+        active_account: BankAccount,
+        cards: List(Card),
+        default_card: Ref(Card),
+        migrated_to: String
+      }
+    )
   end
 end

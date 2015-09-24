@@ -2,12 +2,12 @@ require "./resource"
 
 module Stripe
   class Transfer < Resource
-    required id, String
-    required object, String
-
-    # FIXME
-  
-    jsonify!
+    properties(
+      required: {
+        id: String,
+        object: String
+      }
+    )
   end
   
 end
