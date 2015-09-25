@@ -90,13 +90,22 @@ module Stripe
 
   #   {parse(response), api_key}
   # end
+  def self.api_key
+    @@api_key
+  end
 
-  def self.request_headers(api_key)
-    headers = {
+  def self.api_key=(key : String)
+    @@api_key = key
+  end
+
+  def self.request_headers(override_api_key=nil)
+    bearer = override_api_key || api_key
+    headers = HTTP::Headers.new 
+    headers.merge!({
       "user_agent": "Stripe/v1 CrystalBindings/#{Stripe::VERSION}",
-      "authorization": "Bearer #{api_key}",
+      "authorization": "Bearer #{bearer.not_nil!}",
       "content_type": "application/x-www-form-urlencoded"
-    }
+    })
 
     headers["stripe_version"] = @@api_version if @@api_version
 
@@ -106,6 +115,7 @@ module Stripe
       headers.merge!({"x_stripe_client_raw_user_agent": user_agent.inspect,
                       "error": "#{e} (#{e.class})"})
     end
+    headers
   end
 
   def self.user_agent

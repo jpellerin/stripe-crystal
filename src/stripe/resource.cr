@@ -1,4 +1,5 @@
 require "./dsl"
+require "http"
 require "json"
 
 # todo support subresources properly
@@ -7,18 +8,18 @@ module Stripe
   class Resource
     include Stripe::DSL
 
-    def self.get(id : String)
+    def self.get(id : String, api_key=nil)
       url = "https://api.stripe.com/v1/#{@@collection}/#{id}"
-      resp = HTTP::Client.get(url)
+      resp = HTTP::Client.get(url, Stripe.request_headers(api_key))
       self.from_json(resp.body)
     end
 
-    def self.all(limit=0)
+    def self.all(limit=0, api_key=nil)
       # FIXME
       # HEADERS
       # Error handling and junk
       url = "https://api.stripe.com/v1/#{@@collection}?limit=#{limit}"
-      resp = HTTP::Client.get(url)
+      resp = HTTP::Client.get(url, Stripe.request_headers(api_key))
       List(self).from_json(resp.body)
     end
 
@@ -32,6 +33,11 @@ module Stripe
 
     def self.from(x)
       raise "No conversion available from #{x} to #{self}"
+    end
+
+    def to_s(io)
+      io << self.class.name
+      io << " <#{id}>"
     end
   end
 
@@ -65,6 +71,10 @@ module Stripe
       _data.each do |h|
         @data << T.from(h)
       end
+    end
+
+    def each
+      @data.each { |d| yield d }
     end
 
     def self.from(h : Hash(String,JSON::Type))
