@@ -17,26 +17,17 @@ describe Stripe::Charge do
 
   describe "customer" do
 
-    it "is a reference that can be resolved" do
-      Fixtures::Charge.sample_data do |data|
-        c = Stripe::Charge.from_json(data)
-        cus = c.customer.try &.resolve
-
-        cus.try { |o|
-          o.id.should eq("cus_6eLh4evge7sWzQ")
-          o.object.should eq("customer")
-        }
-      end
-    end
-
-    it "should delegate to the object once resolve" do
-      Fixtures::Charge.sample_data do |data|
-        c = Stripe::Charge.from_json(data)
-        c.customer.try &.resolve
-        c.customer.try { |cus|
-          cus.id.should eq("cus_6eLh4evge7sWzQ")
-          cus.object.should eq("customer")
-        }
+    it "should delegate to the object once resolved" do
+      Fixtures::APIKey.test_key do
+        Fixtures::Charge.sample_data do |data|
+          c = Stripe::Charge.from_json(data)
+          c.customer.try { |cus|
+            puts cus
+            puts c.customer
+            cus.id.should eq("cus_6eLh4evge7sWzQ")
+            cus.object.should eq("customer")
+         }
+        end
       end
     end
   end
@@ -47,12 +38,14 @@ describe Stripe::Charge do
     end
 
     it "makes an api call" do
-      WebMock.wrap do
-        WebMock.stub(:get, "api.stripe.com/v1/charges?limit=3")
-          .to_return(body: File.read("spec/sample_data/charges_all.json"))
-        charges = Stripe::Charge.all(limit=3)
-        charges.should_not be_nil
-        charges.data.size.should eq(2)
+      Fixtures::APIKey.test_key do
+        WebMock.wrap do
+          WebMock.stub(:get, "api.stripe.com/v1/charges?limit=3")
+            .to_return(body: File.read("spec/sample_data/charges_all.json"))
+          charges = Stripe::Charge.all(limit=3)
+          charges.should_not be_nil
+          charges.data.size.should eq(2)
+        end
       end
     end
   end

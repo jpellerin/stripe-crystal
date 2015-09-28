@@ -49,6 +49,14 @@ module Stripe
       end
     end
 
+    def try 
+      resolve
+      r = @ref
+      if r
+        yield r
+      end
+    end
+
     def resolve
       r = @ref
       if r

@@ -4,6 +4,17 @@ require "webmock"
 require "../src/stripe"
 
 module Fixtures
+  module APIKey
+    extend self
+    def test_key
+      old = Stripe.api_key
+      Stripe.api_key = "ts_example"
+      yield
+      if old
+        Stripe.api_key = old
+      end
+    end
+  end
   module Charge
     extend self
     def sample_data
